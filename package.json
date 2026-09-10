@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-workflow",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Editorial state machine with stage-level RBAC",
   "author": "Suryo Galih Kencana Harianja <harianja.suryo@gmail.com>",
   "license": "MIT",
