@@ -1,21 +1,21 @@
 /**
  * Contract shared by this plugin's server and admin bundles.
  *
- * The UIDs are referenced from both halves and by other Content Hub plugins (the flow
+ * The UIDs are referenced from both halves and by other plugins (the flow
  * engine subscribes to the stage-changed event), so they live in one place.
  */
 
-export const PLUGIN_ID = 'content-hub-workflow' as const;
+export const PLUGIN_ID = 'workflow' as const;
 
 export const UID = {
-  workflow: 'plugin::content-hub-workflow.workflow',
-  stage: 'plugin::content-hub-workflow.stage',
-  transition: 'plugin::content-hub-workflow.transition',
-  entryStage: 'plugin::content-hub-workflow.entry-stage',
+  workflow: 'plugin::workflow.workflow',
+  stage: 'plugin::workflow.stage',
+  transition: 'plugin::workflow.transition',
+  entryStage: 'plugin::workflow.entry-stage',
 } as const;
 
 /**
- * Event other plugins subscribe to. Tahap 5's flow engine listens for this to run
+ * Event other plugins subscribe to. The flow engine listens for this to run
  * automations when an entry is approved, published, taken down, and so on.
  */
 export const STAGE_CHANGED_EVENT = 'content-workflow.stage.changed' as const;

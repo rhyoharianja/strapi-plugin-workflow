@@ -62,7 +62,7 @@ const workflow = ({ strapi }: { strapi: Core.Strapi }) => ({
 
     if (matches.length > 1) {
       strapi.log.warn(
-        `[content-hub-workflow] ${uid} is claimed by ${matches.length} enabled workflows; using "${matches[0]!.name}"`
+        `[workflow] ${uid} is claimed by ${matches.length} enabled workflows; using "${matches[0]!.name}"`
       );
     }
 

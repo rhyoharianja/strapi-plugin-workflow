@@ -1,1 +1,1 @@
-export const PLUGIN_ID = "content-hub-workflow";
+export const PLUGIN_ID = "workflow";

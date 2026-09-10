@@ -22,8 +22,8 @@ export class TransitionForbiddenError extends Error {
 }
 
 const transition = ({ strapi }: { strapi: Core.Strapi }) => {
-  const workflows = () => strapi.plugin('content-hub-workflow').service('workflow');
-  const events = () => strapi.plugin('content-hub-workflow').service('events');
+  const workflows = () => strapi.plugin('workflow').service('workflow');
+  const events = () => strapi.plugin('workflow').service('events');
 
   /** Admin roles are relations, so the acting user's role codes are loaded per request. */
   const toActingUser = async (userId: number): Promise<ActingUser> => {
@@ -68,7 +68,7 @@ const transition = ({ strapi }: { strapi: Core.Strapi }) => {
     if (!hasDraftAndPublish(uid)) {
       // A content-type without Draft & Publish has no published state to contradict.
       strapi.log.debug(
-        `[content-hub-workflow] ${uid} has no Draft & Publish; skipping ${effect}`
+        `[workflow] ${uid} has no Draft & Publish; skipping ${effect}`
       );
       return;
     }

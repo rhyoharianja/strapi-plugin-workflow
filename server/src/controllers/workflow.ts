@@ -10,7 +10,7 @@ import { documents } from '../utils/documents';
  * be built on one screen — adding a stage never requires a deploy.
  */
 const controller = ({ strapi }: { strapi: Core.Strapi }) => {
-  const service = () => strapi.plugin('content-hub-workflow').service('workflow');
+  const service = () => strapi.plugin('workflow').service('workflow');
 
   return {
     async find(ctx): Promise<void> {

@@ -7,7 +7,7 @@
  */
 export default {
   kind: 'collectionType',
-  collectionName: 'content_hub_workflow_entry_stages',
+  collectionName: 'workflow_entry_stages',
   info: {
     singularName: 'entry-stage',
     pluralName: 'entry-stages',
@@ -25,12 +25,12 @@ export default {
     workflow: {
       type: 'relation',
       relation: 'oneToOne',
-      target: 'plugin::content-hub-workflow.workflow',
+      target: 'plugin::workflow.workflow',
     },
     stage: {
       type: 'relation',
       relation: 'oneToOne',
-      target: 'plugin::content-hub-workflow.stage',
+      target: 'plugin::workflow.stage',
     },
   },
 };

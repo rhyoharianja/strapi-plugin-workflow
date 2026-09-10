@@ -6,7 +6,7 @@
  */
 export default {
   kind: 'collectionType',
-  collectionName: 'content_hub_workflows',
+  collectionName: 'workflow_workflows',
   info: {
     singularName: 'workflow',
     pluralName: 'workflows',
@@ -33,7 +33,7 @@ export default {
     stages: {
       type: 'relation',
       relation: 'oneToMany',
-      target: 'plugin::content-hub-workflow.stage',
+      target: 'plugin::workflow.stage',
       mappedBy: 'workflow',
     },
   },

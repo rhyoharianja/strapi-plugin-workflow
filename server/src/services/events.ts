@@ -7,10 +7,10 @@ type Listener = (payload: StageChangedPayload) => void | Promise<void>;
 /**
  * Minimal in-process event hub.
  *
- * Other Content Hub plugins (the flow engine in Tahap 5) subscribe here to react to
+ * Other plugins (the flow engine, for one) subscribe here to react to
  * stage changes without depending on this plugin's internals:
  *
- *   strapi.plugin('content-hub-workflow').service('events').on(handler);
+ *   strapi.plugin('workflow').service('events').on(handler);
  *
  * Listener failures are logged and swallowed — an automation that throws must never roll
  * back an editorial transition that already happened.

@@ -3,10 +3,10 @@ import type { Core } from '@strapi/strapi';
 import { STAGE_CHANGED_EVENT } from '../../shared/workflow';
 
 const bootstrap = ({ strapi }: { strapi: Core.Strapi }) => {
-  // Log every transition. Tahap 5's flow engine subscribes to the same hub to run
+  // Log every transition. The flow engine subscribes to the same hub to run
   // automations, which is why the emitter is a service rather than a local callback.
   strapi
-    .plugin('content-hub-workflow')
+    .plugin('workflow')
     .service('events')
     .on((payload) => {
       strapi.log.info(

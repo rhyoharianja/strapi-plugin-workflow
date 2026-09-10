@@ -4,7 +4,7 @@ import { TransitionForbiddenError } from '../services/transition';
 
 /** Edit-view endpoints: what stage is this entry in, and where may I move it? */
 const controller = ({ strapi }: { strapi: Core.Strapi }) => {
-  const service = () => strapi.plugin('content-hub-workflow').service('transition');
+  const service = () => strapi.plugin('workflow').service('transition');
 
   return {
     async describe(ctx): Promise<void> {

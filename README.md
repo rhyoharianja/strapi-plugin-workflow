@@ -1,10 +1,12 @@
 # strapi-plugin-workflow
 
+[![npm](https://img.shields.io/npm/v/strapi-plugin-workflow?logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/strapi-plugin-workflow) ![license MIT](https://img.shields.io/badge/license-MIT-3DA639) ![Strapi 5](https://img.shields.io/badge/Strapi-5-4945FF?logo=strapi&logoColor=white) ![TypeScript 5.9](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white) ![React 18](https://img.shields.io/badge/React-18-20232A?logo=react&logoColor=white)
+
 Editorial **review workflows** for Strapi 5 Community — the Enterprise "Review Workflows"
 feature rebuilt as a free plugin: named pipelines, stage-level RBAC, a full audit trail,
 and an event other plugins can automate against.
 
-Part of [Strapi Content Hub](../../README.md).
+One of a family of standalone Strapi 5 plugins — see [the others](https://github.com/rhyoharianja?tab=repositories).
 
 ## Install
 
@@ -15,15 +17,21 @@ pnpm add strapi-plugin-workflow
 ```ts
 // config/plugins.ts
 export default {
-  'content-hub-workflow': {
+  'workflow': {
     enabled: true,
     resolve: 'strapi-plugin-workflow',
   },
 };
 ```
 
-In a pnpm workspace, resolve from the app — see the
-[theme plugin README](../strapi-plugin-theme/README.md#install) for the `createRequire`
+> **Keep the key `workflow` exactly as it is.** It is the plugin id, and the id is
+> compiled into the package — the admin menu link, the `plugin::workflow.*`
+> custom-field uids, the route prefix and every internal `strapi.plugin(...)` lookup.
+> Renaming it does not rename those, so the plugin half-loads and fails in ways that do
+> not look like a naming problem. `resolve` points at the package; the key does not.
+
+Under pnpm, `resolve` by name is not enough — see the
+[theme plugin README](https://github.com/rhyoharianja/strapi-plugin-theme#install) for the `createRequire`
 pattern.
 
 ## Model
@@ -203,20 +211,20 @@ never dangles an action the server will reject.
 
 ```bash
 # or over the API
-curl -X PUT "http://localhost:1337/content-hub-workflow/entries/api::article.article/$DOC/stage" \
+curl -X PUT "http://localhost:1337/workflow/entries/api::article.article/$DOC/stage" \
   -H "Authorization: Bearer $ADMIN_JWT" -H "Content-Type: application/json" \
   -d '{"stage":"<stage documentId>","note":"legal cleared"}'
 ```
 
 **4. Let the stage publish.** Do not press Publish; reach the publishing stage and the entry goes
-live. Publishing per surface is the [channels plugin](../strapi-plugin-channels/README.md)'s
+live. Publishing per surface is the [channels plugin](https://github.com/rhyoharianja/strapi-plugin-channels)'s
 job, and it needs no second approval.
 
 ## Automating on stage changes
 
 ```ts
 strapi
-  .plugin('content-hub-workflow')
+  .plugin('workflow')
   .service('events')
   .on(async (payload) => {
     // { uid, documentId, workflowId, fromStage, toStage, byUser, at, note }
@@ -230,25 +238,25 @@ move is durable**, so subscribers never react to a rejected transition. A listen
 throws is logged and swallowed — an automation must never roll back an editorial decision
 that already happened.
 
-The [flow plugin](../strapi-plugin-flow/README.md) subscribes here, and guards the
+The [flow plugin](https://github.com/rhyoharianja/strapi-plugin-flow) subscribes here, and guards the
 lookup with `if (workflow)` so it still runs when this plugin is absent.
 
 ## Admin API
 
 | Method | Route                                         | Purpose                        |
 | ------ | --------------------------------------------- | ------------------------------ |
-| GET    | `/content-hub-workflow/workflows`             | List workflows with stages     |
-| POST   | `/content-hub-workflow/workflows`             | Create (seeded with 4 stages)  |
-| PUT    | `/content-hub-workflow/workflows/:id`         | Rename, enable, bind types     |
-| DELETE | `/content-hub-workflow/workflows/:id`         | Delete                         |
-| POST   | `/content-hub-workflow/workflows/:id/stages`  | Add a stage                    |
-| PUT    | `/content-hub-workflow/stages/:id`            | Edit a stage                   |
-| DELETE | `/content-hub-workflow/stages/:id`            | Remove a stage                 |
-| GET    | `/content-hub-workflow/content-types`         | Bindable content-types         |
-| GET    | `/content-hub-workflow/roles`                 | Admin roles, for the picker    |
-| GET    | `/content-hub-workflow/entries/:uid/:docId`   | Current stage + available ones |
-| PUT    | `/content-hub-workflow/entries/:uid/:docId/stage` | Move stage                 |
-| GET    | `/content-hub-workflow/entries/:uid/:docId/history` | Audit trail              |
+| GET    | `/workflow/workflows`             | List workflows with stages     |
+| POST   | `/workflow/workflows`             | Create (seeded with 4 stages)  |
+| PUT    | `/workflow/workflows/:id`         | Rename, enable, bind types     |
+| DELETE | `/workflow/workflows/:id`         | Delete                         |
+| POST   | `/workflow/workflows/:id/stages`  | Add a stage                    |
+| PUT    | `/workflow/stages/:id`            | Edit a stage                   |
+| DELETE | `/workflow/stages/:id`            | Remove a stage                 |
+| GET    | `/workflow/content-types`         | Bindable content-types         |
+| GET    | `/workflow/roles`                 | Admin roles, for the picker    |
+| GET    | `/workflow/entries/:uid/:docId`   | Current stage + available ones |
+| PUT    | `/workflow/entries/:uid/:docId/stage` | Move stage                 |
+| GET    | `/workflow/entries/:uid/:docId/history` | Audit trail              |
 
 There are **no public routes**: editorial state is internal to the newsroom, and exposing
 stages publicly would leak unreleased content planning. Other plugins read stages through

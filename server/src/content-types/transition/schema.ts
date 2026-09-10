@@ -6,7 +6,7 @@
  */
 export default {
   kind: 'collectionType',
-  collectionName: 'content_hub_workflow_transitions',
+  collectionName: 'workflow_transitions',
   info: {
     singularName: 'transition',
     pluralName: 'transitions',

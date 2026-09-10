@@ -6,7 +6,7 @@
  */
 export default {
   kind: 'collectionType',
-  collectionName: 'content_hub_workflow_stages',
+  collectionName: 'workflow_stages',
   info: {
     singularName: 'stage',
     pluralName: 'stages',
@@ -51,7 +51,7 @@ export default {
     workflow: {
       type: 'relation',
       relation: 'manyToOne',
-      target: 'plugin::content-hub-workflow.workflow',
+      target: 'plugin::workflow.workflow',
       inversedBy: 'stages',
     },
   },
